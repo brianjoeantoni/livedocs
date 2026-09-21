@@ -1,36 +1,90 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# LiveDocs
 
-## Getting Started
+LiveDocs is a collaborative rich-text document editor built with Next.js. It lets authenticated users create documents, invite collaborators with viewer or editor access, edit together in real time, and discuss content through anchored comments and mentions.
 
-First, run the development server:
+## Features
+
+- Clerk-powered sign-up, sign-in, and user profiles
+- Create, rename, list, and delete documents
+- Real-time co-editing with active collaborator presence
+- Role-based sharing: viewers can read; editors can update content and manage sharing
+- Rich-text editing with headings, inline formatting, alignment, undo, and redo
+- Threaded comments, mentions, and resolved comment states
+- In-app notifications for document access and collaboration activity
+
+## Tech stack
+
+- [Next.js 14](https://nextjs.org/) with TypeScript and the App Router
+- [React](https://react.dev/) and [Tailwind CSS](https://tailwindcss.com/)
+- [Clerk](https://clerk.com/) for authentication and user management
+- [Liveblocks](https://liveblocks.io/) for collaborative rooms, presence, comments, and inbox notifications
+- [Lexical](https://lexical.dev/) for the rich-text editor
+- [Sentry](https://sentry.io/) for error monitoring
+
+## Getting started
+
+### Prerequisites
+
+- Node.js 18.17 or later
+- A Clerk application
+- A Liveblocks project
+
+### Installation
+
+1. Clone the repository and install dependencies:
+
+   ```bash
+   git clone <your-repository-url>
+   cd livedocs
+   npm install
+   ```
+
+2. Create `.env.local` and configure the required credentials:
+
+   ```env
+   NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=your_clerk_publishable_key
+   CLERK_SECRET_KEY=your_clerk_secret_key
+   LIVEBLOCKS_SECRET_KEY=your_liveblocks_secret_key
+   ```
+
+   Add the usual Clerk redirect URLs if they are not already configured in your Clerk dashboard. Sentry configuration is optional for local development.
+
+3. Start the development server:
+
+   ```bash
+   npm run dev
+   ```
+
+   Open [http://localhost:3000](http://localhost:3000).
+
+## Available scripts
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm run dev    # Start the development server
+npm run build  # Create a production build
+npm run start  # Run the production server
+npm run lint   # Run ESLint
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## How collaboration works
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Each document is represented by a Liveblocks room. The room stores its title, owner, and per-user access permissions. Liveblocks synchronizes editor state, collaborator presence, comments, and inbox events in real time; Clerk provides the authenticated user identity used to authorize access.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## Project structure
 
-## Learn More
+```text
+app/                    Routes, API endpoints, layout, and providers
+components/             Document, sharing, commenting, and editor UI
+components/editor/      Lexical editor and toolbar plugins
+lib/actions/            Server actions for rooms, access, and users
+lib/                    Liveblocks client and shared utilities
+styles/                 Editor and theme styles
+```
 
-To learn more about Next.js, take a look at the following resources:
+## Deployment
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Deploy the app to a Node.js-compatible host such as Vercel. Configure the same Clerk and Liveblocks environment variables in the deployment environment, and ensure the Clerk application permits the production domain.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+## License
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+No license has been specified for this repository.
